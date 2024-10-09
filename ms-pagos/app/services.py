@@ -1,16 +1,16 @@
-import random
+from app.models import Pago, db
 
-def procesar_pago(datos_pago):
-    # Verifica que los datos de pago sean válidos
-    if 'usuario_id' not in datos_pago or 'monto' not in datos_pago:
-        return {"status": "error", "message": "Datos incompletos"}
+def registrar_pago(usuario_id, monto, metodo_pago):
+    nuevo_pago = Pago(usuario_id=usuario_id, monto=monto, metodo_pago=metodo_pago)
+    db.session.add(nuevo_pago)
+    db.session.commit()  # Guardamos el pago en la base de datos
+    return {"status": "success", "pago": nuevo_pago}
 
-    # Simulación de procesamiento de pago
-    metodo_pago = datos_pago.get('metodo_pago', 'tarjeta')
-
-    # Simulamos un error aleatorio en el proceso de pago
-    if random.choice([True, False]):
-        return {"status": "error", "message": "Error en el procesamiento del pago"}
-
-    # Aquí se podría integrar un sistema real de pagos, como Stripe, PayPal, etc.
-    return {"status": "success", "monto": datos_pago['monto'], "metodo_pago": metodo_pago}
+def actualizar_estado_pago(pago_id, estado):
+    pago = Pago.query.get(pago_id)
+    if pago:
+        pago.estado = estado
+        db.session.commit()  # Actualizamos el estado del pago en la base de datos
+        return {"status": "success", "pago": pago}
+    else:
+        return {"status": "error", "message": "Pago no encontrado"}
