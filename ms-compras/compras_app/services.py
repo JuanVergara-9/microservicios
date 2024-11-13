@@ -1,7 +1,7 @@
 from flask import current_app
 from sqlalchemy.exc import SQLAlchemyError
-from app.models import Compra, db
-from app.saga import SagaState, SagaEvent
+from compras_app.models import Compra, db
+from compras_app.saga import SagaState, SagaEvent
 
 compras = []  # Inicializamos la lista de compras
 

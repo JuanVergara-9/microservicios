@@ -1,9 +1,21 @@
+# docker-compose.yml
 
 services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork
+
   ms-catalogo:
     build: ./ms-catalogo
     ports:
-      - "5000:5000"
+      - "5001:5001"
     env_file:
       - .env
     depends_on:
@@ -14,7 +26,7 @@ services:
   ms-compras:
     build: ./ms-compras
     ports:
-      - "5001:5001"
+      - "5002:5002"
     env_file:
       - .env
     depends_on:
@@ -25,18 +37,6 @@ services:
   ms-inventario:
     build: ./ms-inventario
     ports:
-      - "5002:5002"
-    env_file:
-      - .env
-    depends_on:
-      - postgres
-    networks:
-      - mynetwork
-
-
-  ms-pagos:
-    build: ./ms-pagos
-    ports:
       - "5003:5003"
     env_file:
       - .env
@@ -45,22 +45,23 @@ services:
     networks:
       - mynetwork
 
+  ms-pagos:
+    build: ./ms-pagos
+    ports:
+      - "5004:5004"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    networks:
+      - mynetwork
 
-
-  postgres:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 12345678
-      POSTGRES_DB: mydb
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+  orquestador:
+    build: ./orquestador
+    ports:
+      - "5000:5000"
     networks:
       - mynetwork
 
 networks:
   mynetwork:
-    driver: bridge
-
-volumes:
-  postgres_data:

@@ -1,4 +1,5 @@
 class Config:
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///compras.db'  # Si decides usar SQLAlchemy para persistir datos
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:12345678@postgres:5001/mydb'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+

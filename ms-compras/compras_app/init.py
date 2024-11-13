@@ -1,6 +1,6 @@
 from flask import Flask
-from app.routes import compras_bp
-from app.models import db
+from compras_app.routes import compras_bp
+from compras_app.models import db
 
 def create_app():
     app = Flask(__name__)

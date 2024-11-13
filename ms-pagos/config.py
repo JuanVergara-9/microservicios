@@ -1,4 +1,6 @@
 class Config:
     DEBUG = True
     SECRET_KEY = 'tu_clave_secreta'
-    # Aquí puedes añadir configuraciones adicionales como integración con sistemas de pagos externos
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:12345678@postgres:5001/mydb'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
