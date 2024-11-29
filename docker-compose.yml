@@ -1,5 +1,3 @@
-# docker-compose.yml
-
 services:
   postgres:
     image: postgres:latest
@@ -12,6 +10,13 @@ services:
     networks:
       - mynetwork
 
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - mynetwork
+
   ms-catalogo:
     build: ./ms-catalogo
     ports:
@@ -20,6 +25,7 @@ services:
       - .env
     depends_on:
       - postgres
+      - redis
     networks:
       - mynetwork
 
@@ -31,6 +37,7 @@ services:
       - .env
     depends_on:
       - postgres
+      - redis
     networks:
       - mynetwork
 
@@ -42,6 +49,7 @@ services:
       - .env
     depends_on:
       - postgres
+      - redis
     networks:
       - mynetwork
 
@@ -53,6 +61,7 @@ services:
       - .env
     depends_on:
       - postgres
+      - redis
     networks:
       - mynetwork
 

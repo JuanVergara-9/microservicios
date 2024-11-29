@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from app import cache
 from app.services import actualizar_inventario, obtener_inventario
 
 inventario_bp = Blueprint('inventario', __name__)
@@ -9,6 +10,7 @@ inventario = {
 }
 
 @inventario_bp.route('/inventario', methods=['GET'])
+@cache.cached(timeout=60, key_prefix='inventario')
 def obtener_productos():
     return jsonify(obtener_inventario())
 
@@ -18,6 +20,8 @@ def actualizar_stock(producto_id):
     resultado = actualizar_inventario(producto_id, datos['cantidad'])
 
     if resultado['status'] == 'success':
+        # Invalidar el caché relevante
+        cache.delete('inventario')
         return jsonify({"message": "Inventario actualizado"}), 200
     else:
         return jsonify({"error": resultado['message']}), 400
