@@ -12,3 +12,5 @@ pytest-mock==3.6.1
 Werkzeug==2.0.0
 redis==4.0.2
 flask-caching==1.10.1
+unittest2==1.1.0
+tenacity==8.0.1
