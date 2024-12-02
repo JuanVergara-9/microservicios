@@ -1,20 +1,13 @@
 from flask import Flask
-from flask_caching import Cache
 from app.routes import pagos_bp
-from app.models import db
-
-cache = Cache()
+from app.extension import db, cache
 
 def create_app():
     app = Flask(__name__)
-
-    # Configuración desde archivo config.py
     app.config.from_object('config.Config')
-    
-    # Inicializar SQLAlchemy
-    db.init_app(app)
 
-    # Inicializar caché
+    # Inicializar extensiones
+    db.init_app(app)
     cache.init_app(app)
 
     # Registrar blueprint de rutas
