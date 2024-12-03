@@ -1,13 +1,8 @@
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, jsonify, request
 from app import cache
-from app.services import manejar_evento_reservar_inventario, actualizar_inventario, obtener_inventario
+from app.services import manejar_evento_reservar_inventario, aumentar_stock, obtener_inventario
 
 inventario_bp = Blueprint('inventario', __name__)
-
-inventario = {
-    1: {"producto": "Producto 1", "stock": 10},
-    2: {"producto": "Producto 2", "stock": 5}
-}
 
 @inventario_bp.route('/inventario', methods=['GET'])
 @cache.cached(timeout=60, key_prefix='inventario')
@@ -17,7 +12,7 @@ def obtener_productos():
 @inventario_bp.route('/inventario/<int:producto_id>', methods=['POST'])
 def actualizar_stock(producto_id):
     datos = request.json
-    resultado = actualizar_inventario(producto_id, datos['cantidad'])
+    resultado = aumentar_stock(producto_id, datos['cantidad'])
 
     if resultado['status'] == 'success':
         # Invalidar el caché relevante
