@@ -51,6 +51,8 @@ def manejar_evento_reservar_inventario(compra_id, producto_id, cantidad):
         producto = Producto.query.get(producto_id)
         if producto and producto.stock >= cantidad:
             producto.stock -= cantidad
+            if producto.stock < 0:
+                raise ValueError("Stock negativo detectado")
             db.session.commit()
 
             # Emitir evento para procesar el pago
@@ -60,7 +62,7 @@ def manejar_evento_reservar_inventario(compra_id, producto_id, cantidad):
             # Emitir evento para cancelar la orden
             emitir_evento(SagaEvent.CANCEL_ORDER, compra_id)
             return {"status": "error", "message": "Stock insuficiente"}
-    except SQLAlchemyError as e:
+    except (SQLAlchemyError, ValueError) as e:
         current_app.logger.error(f"Error al reservar inventario: {e}")
         db.session.rollback()
         return {"status": "error", "message": "Error al reservar inventario"}
