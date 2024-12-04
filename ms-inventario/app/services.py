@@ -65,5 +65,5 @@ def manejar_evento_reservar_inventario(compra_id, producto_id, cantidad):
         return {"status": "error", "message": str(e)}
 
 def emitir_evento(evento, compra_id):
-    # Emitir evento (puedes usar una cola de mensajes como RabbitMQ o Kafka)
+    # Emitir evento 
     current_app.logger.info(f"Emitir evento {evento} para la compra {compra_id}")

@@ -7,7 +7,7 @@ class Compra(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     usuario_id = db.Column(db.Integer, nullable=False)
-    productos = db.Column(db.String, nullable=False)  # O usar JSON si manejas varios productos
+    productos = db.Column(db.String, nullable=False)  
 
     def __repr__(self):
         return f"<Compra {self.id} de Usuario {self.usuario_id}>"

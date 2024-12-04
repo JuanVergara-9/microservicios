@@ -1,6 +1,6 @@
 import unittest
-from app import create_app, db
-from app.models import Producto, Compra
+from compras_app import create_app, db
+from compras_app.models import Producto, Compra
 
 class TestIntegration(unittest.TestCase):
 

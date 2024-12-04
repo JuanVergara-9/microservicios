@@ -56,7 +56,6 @@ def registrar_compra(datos_compra):
         return {"status": "error", "message": "Error al iniciar la saga de compra"}
 
 def emitir_evento(evento, compra_id):
-    # Emitir evento (puedes usar una cola de mensajes como RabbitMQ o Kafka)
     current_app.logger.info(f"Emitir evento {evento} para la compra {compra_id}")
 
 # Ejemplo de implementación del patrón Circuit Breaker

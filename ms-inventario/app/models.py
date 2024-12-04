@@ -1,4 +1,4 @@
-from app import db  # Importa db desde app.__init__
+from app import db  
 
 class Inventario(db.Model):
     __tablename__ = 'inventario'

@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from app.services import obtener_todos_los_productos, obtener_producto_por_id, agregar_producto, registrar_compra
+from compras_app.services import obtener_todos_los_productos, obtener_producto_por_id, agregar_producto, registrar_compra
 
 class TestServices(unittest.TestCase):
 

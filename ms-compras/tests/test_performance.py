@@ -1,6 +1,6 @@
 import unittest
 import time
-from app import create_app
+from compras_app import create_app
 
 class TestPerformance(unittest.TestCase):
 
