@@ -1,15 +1,19 @@
-from flask_sqlalchemy import SQLAlchemy
+from app import db  # Importa db desde app.__init__
 
-db = SQLAlchemy()
-
-class Producto(db.Model):
-    __tablename__ = 'productos_inventario'
+class Inventario(db.Model):
+    __tablename__ = 'inventario'
 
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
     descripcion = db.Column(db.String(200), nullable=True)
     precio = db.Column(db.Float, nullable=False)
-    stock = db.Column(db.Integer, nullable=False, default=0)  # Campo de stock
+    stock = db.Column(db.Integer, nullable=False)  # Campo de stock
 
-    def __repr__(self):
-        return f"<Producto {self.nombre} (Stock: {self.stock})>"
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "descripcion": self.descripcion,
+            "precio": self.precio,
+            "stock": self.stock,
+        }

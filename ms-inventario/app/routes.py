@@ -1,11 +1,10 @@
 from flask import Blueprint, jsonify, request
+from app.services import obtener_inventario, aumentar_stock, manejar_evento_reservar_inventario
 from app import cache
-from app.services import manejar_evento_reservar_inventario, aumentar_stock, obtener_inventario
 
-inventario_bp = Blueprint('inventario', __name__)
+inventario_bp = Blueprint('inventario', __name__, url_prefix='/api/v1')
 
 @inventario_bp.route('/inventario', methods=['GET'])
-@cache.cached(timeout=60, key_prefix='inventario')
 def obtener_productos():
     return jsonify(obtener_inventario())
 
@@ -24,9 +23,12 @@ def actualizar_stock(producto_id):
 @inventario_bp.route('/reservar', methods=['POST'])
 def reservar_inventario():
     datos = request.json
-    compra_id = datos['compra_id']
-    producto_id = datos['producto_id']
-    cantidad = datos['cantidad']
+    compra_id = datos.get('compra_id')
+    producto_id = datos.get('producto_id')
+    cantidad = datos.get('cantidad')
+
+    if not compra_id or not producto_id or not cantidad:
+        return jsonify({"error": "Datos incompletos"}), 400
 
     resultado = manejar_evento_reservar_inventario(compra_id, producto_id, cantidad)
 
